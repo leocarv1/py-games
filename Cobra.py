@@ -92,7 +92,7 @@ class Cobra:
             else:
                 self.COBRA.pop()
 
-        self.desenharJogo()
+            self.desenharJogo()
 
     def adicionarComida(self):
         while True: 
@@ -115,28 +115,33 @@ class Cobra:
                 # verifica se a cobra bateu na parede
                 if self.CABECA[0] >= self.COMPRIMENTO_JANELA - 20:
                     self.morto = True
+                    self.gameOver()
 
             case self.ESQUERDA:
                 self.CABECA[0] -= 20
 
                 if self.CABECA[0] < 10:
                     self.morto = True
+                    self.gameOver()
 
             case self.CIMA:
                 self.CABECA[1] -= 20
 
                 if self.CABECA[1] < 110:
                     self.morto = True
+                    self.gameOver()
 
             case self.BAIXO:     
                 self.CABECA[1] += 20
 
                 if self.CABECA[1] >= self.ALTURA_JANELA - 30:
-                    self.morto = True       
+                    self.morto = True     
+                    self.gameOver()  
 
         # verifica se a cobra bateu nela mesma
         if self.COBRA.count(self.CABECA) > 0:
             self.morto = True 
+            self.gameOver()
 
     def desenharJogo(self):
         self.TELA.fill(self.COR_FUNDO)
@@ -162,7 +167,6 @@ class Cobra:
         pygame.draw.rect(self.TELA, self.COR_COMIDA, Rect(self.COMIDA_POS, self.BLOCO))
 
         #desenha a cobra
-        print(self.COBRA)
         for quadrado in self.COBRA: 
             if quadrado == self.COBRA[0]:
                 pygame.draw.rect(self.TELA, self.COR_CABECA, Rect(quadrado, self.BLOCO))
@@ -170,4 +174,11 @@ class Cobra:
                 pygame.draw.rect(self.TELA, self.COR_CORPO, Rect(quadrado, self.BLOCO))
 
         pygame.display.update()
-        self.relogio.tick(1)
+        self.relogio.tick(9)
+
+    def gameOver(self):
+        # desenha o Game Over
+        pygame.draw.rect(self.TELA, self.COR_DESTAQUE, Rect([30, 100], [400, 300]), 1)
+        # escreve o texto
+        font = pygame.font.Font(None, 40)
+        placar = font.render("Game Over: " + str(self.pontos), 1, self.COR_TEXTO)
