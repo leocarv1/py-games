@@ -1,4 +1,4 @@
-from Cobra import Cobra
+from Snake.Cobra import Cobra
 
 cobra = Cobra()
 cobra.start()
